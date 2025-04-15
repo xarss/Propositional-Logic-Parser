@@ -1,0 +1,15 @@
+true
+false
+a
+9var
+x1
+01abc
+(\neg true)
+(\neg a)
+(\wedge a b)
+(\vee x1 (\neg false))
+(\rightarrow (\neg a) b2)
+(\leftrightarrow (\wedge a b) (\neg c3))
+(\vee (\wedge x y) (\rightarrow z true))
+(\neg (\neg (\neg a)))
+(\leftrightarrow (\rightarrow a b) (\wedge c d))

@@ -1,0 +1,23 @@
+(\wedge a (\vee b c))
+(\neg (\wedge a b))
+(\rightarrow true false)
+(\leftrightarrow (\neg x1) (\wedge y2 z3))
+(\vee a)
+(\neg)
+true
+(\wedge a (\neg (\vee b false)))
+(\leftrightarrow a b c)
+(\not b)
+(\wedge 1abc 2def)
+(\vee (\neg (\neg true)) (\rightarrow a b))
+( false )
+(\neg (\wedge (\vee a b) c))
+(\neg (\neg (\neg (\neg z))))
+(\neg (\wedge a)) 
+(\wedge (\neg a) (\vee b))
+a1b2
+(\neg (\neg))
+(\wedge a (\rightarrow b)))
+(\wedge a b
+(\wedgea b)
+(\vee a (\wedge b c))
