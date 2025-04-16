@@ -1,3 +1,4 @@
+15
 tru
 fal se
 \neg a
