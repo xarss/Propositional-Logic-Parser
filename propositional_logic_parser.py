@@ -88,12 +88,13 @@ def validar_expressao(expr):
 
 def main():
     if len(sys.argv) < 2:
-        print("Uso: python validador_logico.py <arquivo.txt>")
+        print("Uso: python propositional_logic_parser.py <arquivo.txt>")
         return
 
     caminho = sys.argv[1]
     expressoes = ler_arquivo(caminho)
     for expr in expressoes:
+        print(f"Expressão: {expr}")
         print(validar_expressao(expr))
 
 if __name__ == "__main__":
