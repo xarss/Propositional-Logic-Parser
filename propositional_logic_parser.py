@@ -1,3 +1,5 @@
+# Guilherme Schwarz, Julia Cristina Moreira da Silva
+
 import sys
 import re
 
