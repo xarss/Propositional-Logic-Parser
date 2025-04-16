@@ -1,16 +1,16 @@
 15
-tru
-fal se
-\neg a
-(\neg)
-(\wedge a)
-(a \wedge b)
-(\wedge a b c)
-(\negg a)
-(\not a)
-(\wedge 3x )
-(\vee (\neg a)
-(\rightarrow)
-( true )
-(\leftrightarrow a (\neg))
-(
+( \neg )
+( \neg true false )
+( \vee )
+( \vee true )
+( \vee true true false )
+( \wedge 123 )
+( \wedge ( \neg false ) )
+(( \wedge true false ))
+( \neg ( \neg ) )
+( \leftrightarrow 1 ( \wedge ) )
+( \neg \neg true )
+( \wedge x9 \vee y1 z2 )
+( \vee x9 ) y1
+( \neg true
+\wedge 1 2
