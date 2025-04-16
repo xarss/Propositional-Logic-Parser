@@ -17,6 +17,6 @@ python propositional_logic_parser.py ".\Input\valid_expressions.txt"
 # Invalid Expressions
 python propositional_logic_parser.py ".\Input\invalid_expressions.txt"
 
-# Both valid and invalid expressions
-python propositional_logic_parser.py ".\Input\mixed_expressions.txt"
+# Single expression for custom testing
+python propositional_logic_parser.py ".\Input\single_expression.txt"
 ```
