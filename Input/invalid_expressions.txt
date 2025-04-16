@@ -1,0 +1,15 @@
+tru
+fal se
+\neg a
+(\neg)
+(\wedge a)
+(a \wedge b)
+(\wedge a b c)
+(\negg a)
+(\not a)
+(\wedge 3x )
+(\vee (\neg a)
+(\rightarrow)
+( true )
+(\leftrightarrow a (\neg))
+(
