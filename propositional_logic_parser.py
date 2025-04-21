@@ -79,18 +79,30 @@ class Lexer:
         self.char_index = prep_end
 
 class Parser:
+    class Token:
+        def __init__(self, tokens, pos):
+            self.tokens = tokens
+            self.pos = pos
+            self.atualizar(pos)
+
+        def atualizar(self, pos):
+            self.pos = pos
+            if pos < len(self.tokens):
+                self.tipo, self.valor = self.tokens[pos]
+            else:
+                self.tipo, self.valor = None, None
+
     def __init__(self, tokens):
         self.tokens = tokens
         self.pos = 0
-
-    def atual(self):
-        return self.tokens[self.pos] if self.pos < len(self.tokens) else (None, None)
+        self.token = Parser.Token(tokens, self.pos)
 
     def consumir(self, tipo):
-        if self.atual()[0] == tipo:
+        if self.token.tipo == tipo:
             self.pos += 1
+            self.token.atualizar(self.pos)
         else:
-            raise ValueError(f"Esperado {tipo}, encontrado {self.atual()}")
+            raise ValueError(f"Esperado {tipo}, encontrado {self.token}")
 
     def parse(self):
         self.formula()
@@ -98,12 +110,13 @@ class Parser:
             raise ValueError("Tokens extras após fim da fórmula")
 
     def formula(self):
-        tipo, _ = self.atual()
-        if tipo == 'CONSTANTE' or tipo == 'PROPOSICAO':
+        tipo = self.token.tipo
+        if tipo in ('CONSTANTE', 'PROPOSICAO'):
             self.pos += 1
+            self.token.atualizar(self.pos)
         elif tipo == 'ABREPAREN':
             self.consumir('ABREPAREN')
-            tipo, _ = self.atual()
+            tipo = self.token.tipo
             if tipo == 'OPUNARIO':
                 self.consumir('OPUNARIO')
                 self.formula()
