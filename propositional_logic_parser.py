@@ -1,7 +1,6 @@
 # Guilherme Schwarz, Julia Cristina Moreira da Silva
 
 import sys
-import re
 
 def ler_arquivo(caminho):
     with open(caminho, 'r') as f:
@@ -12,32 +11,72 @@ def ler_arquivo(caminho):
         raise ValueError("Quantidade de expressões não bate com o número informado.")
     return expressoes
 
-TOKEN_REGEX = [
-    ('ABREPAREN', r'\('),
-    ('FECHAPAREN', r'\)'),
-    ('OPUNARIO', r'\\neg'),
-    ('OPBINARIO', r'\\wedge|\\vee|\\rightarrow|\\leftrightarrow'),
-    ('CONSTANTE', r'true|false'),
-    ('PROPOSICAO', r'[0-9][0-9a-z]*'),
-    ('ESPACO', r'\s+'),
-]
+class Lexer:
+    def __init__(self, expression: str):
+        self.expression: str = expression
+        self.tokens: list[tuple] = []
+        self.char_index: int = 0
+        
+    def get_tokens(self):
+        while self.char_index < len(self.expression):
+            char = self.expression[self.char_index]
+            rest = self.expression[self.char_index:]
 
-def lexer(expr):
-    tokens = []
-    i = 0
-    while i < len(expr):
-        match = None
-        for tipo, regex in TOKEN_REGEX:
-            pattern = re.compile(regex)
-            match = pattern.match(expr, i)
-            if match:
-                if tipo != 'ESPACO':
-                    tokens.append((tipo, match.group()))
-                i = match.end()
-                break
-        if not match:
-            raise ValueError(f"Erro léxico na posição {i}: '{expr[i]}'")
-    return tokens
+            if char.isspace():
+                self.space_state()
+            elif char == '(':
+                self.abreparen_state()
+            elif char == ')':
+                self.fechaparen_state()
+            elif rest.startswith('\\leftrightarrow'):
+                self.opbinario_state('\\leftrightarrow')
+            elif rest.startswith('\\rightarrow'):
+                self.opbinario_state('\\rightarrow')
+            elif rest.startswith('\\wedge'):
+                self.opbinario_state('\\wedge')
+            elif rest.startswith('\\vee'):
+                self.opbinario_state('\\vee')
+            elif rest.startswith('\\neg'):
+                self.opunario_state('\\neg')
+            elif rest.startswith('true'):
+                self.constante_state('true')
+            elif rest.startswith('false'):
+                self.constante_state('false')
+            elif char.isdigit():
+                self.preposicao_state()
+            else:
+                raise ValueError(f"Erro léxico na posição {self.char_index}: '{char}'")
+        return self.tokens
+    
+    def space_state(self):
+        self.char_index += 1
+    
+    def abreparen_state(self):
+        self.tokens.append(('ABREPAREN', '('))
+        self.char_index += 1
+        
+    def fechaparen_state(self):
+        self.tokens.append(('FECHAPAREN', ')'))
+        self.char_index += 1
+        
+    def opbinario_state(self, operator: str):
+        self.tokens.append(('OPBINARIO', operator))
+        self.char_index += len(operator)
+        
+    def opunario_state(self, operator: str):
+        self.tokens.append(('OPUNARIO', operator))
+        self.char_index += len(operator)
+    
+    def constante_state(self, constante: str):
+        self.tokens.append(('CONSTANTE', constante))
+        self.char_index += len(constante)
+        
+    def preposicao_state(self):
+        prep_end = self.char_index + 1
+        while prep_end < len(self.expression) and self.expression[prep_end].isalnum():
+            prep_end += 1
+        self.tokens.append(('PROPOSICAO', self.expression[self.char_index:prep_end]))
+        self.char_index = prep_end
 
 class Parser:
     def __init__(self, tokens):
@@ -81,7 +120,8 @@ class Parser:
 
 def validar_expressao(expr):
     try:
-        tokens = lexer(expr)
+        lexer = Lexer(expr)
+        tokens = lexer.get_tokens()
         parser = Parser(tokens)
         parser.parse()
         return "valida"
