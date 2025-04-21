@@ -8,6 +8,16 @@ A Propositional Logic Parser processes logical expressions by breaking them into
 python propositional_logic_parser.py <InputFile>
 ```
 
+## Input file format
+```txt
+<NumberOfExpressions>
+<Expression1>
+<Expression2>
+<Expression3>
+<Expression4>
+...
+```
+
 Existing test files:
 
 ```powershell
